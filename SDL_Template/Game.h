@@ -1,6 +1,6 @@
 #pragma once
 #include "SDL.h"
-#include "Object.h"
+#include "Grid.h"
 #include <vector>
 
 class Game
@@ -19,11 +19,14 @@ public:
 
 	static const int SCREEN_WIDTH;
 	static const int SCREEN_HEIGHT;
+	static const int CELL_SIZE;
+	static const int BORDER_SIZE;
 private:
 
-	Sprite* m_Background;
+	//Sprite* m_Background;
+	Grid m_Grid;
 
-	std::vector<Object*> m_Objects;
+	//std::vector<Object*> m_Objects;
 
 };
 

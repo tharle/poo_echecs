@@ -1,6 +1,10 @@
-D:\Tharle J Camargo\POO\SDL_Template_TARGET_SHOOTER\SDL_Template\Game.cpp;D:\Tharle J Camargo\POO\SDL_Template_TARGET_SHOOTER\SDL_Template\x64\Debug\Game.obj
-D:\Tharle J Camargo\POO\SDL_Template_TARGET_SHOOTER\SDL_Template\HealthTarget.cpp;D:\Tharle J Camargo\POO\SDL_Template_TARGET_SHOOTER\SDL_Template\x64\Debug\HealthTarget.obj
-D:\Tharle J Camargo\POO\SDL_Template_TARGET_SHOOTER\SDL_Template\main.cpp;D:\Tharle J Camargo\POO\SDL_Template_TARGET_SHOOTER\SDL_Template\x64\Debug\main.obj
-D:\Tharle J Camargo\POO\SDL_Template_TARGET_SHOOTER\SDL_Template\MovingTarget.cpp;D:\Tharle J Camargo\POO\SDL_Template_TARGET_SHOOTER\SDL_Template\x64\Debug\MovingTarget.obj
-D:\Tharle J Camargo\POO\SDL_Template_TARGET_SHOOTER\SDL_Template\Object.cpp;D:\Tharle J Camargo\POO\SDL_Template_TARGET_SHOOTER\SDL_Template\x64\Debug\Object.obj
-D:\Tharle J Camargo\POO\SDL_Template_TARGET_SHOOTER\SDL_Template\Sprite.cpp;D:\Tharle J Camargo\POO\SDL_Template_TARGET_SHOOTER\SDL_Template\x64\Debug\Sprite.obj
+D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\Game.cpp;D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\x64\Debug\Game.obj
+D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\Grid.cpp;D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\x64\Debug\Grid.obj
+D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\HealthTarget.cpp;D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\x64\Debug\HealthTarget.obj
+D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\main.cpp;D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\x64\Debug\main.obj
+D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\MovingTarget.cpp;D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\x64\Debug\MovingTarget.obj
+D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\Object.cpp;D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\x64\Debug\Object.obj
+D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\Pawn.cpp;D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\x64\Debug\Pawn.obj
+D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\Sprite.cpp;D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\x64\Debug\Sprite.obj
+D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\Tile.cpp;D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\x64\Debug\Tile.obj
+D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\Token.cpp;D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\x64\Debug\Token.obj
