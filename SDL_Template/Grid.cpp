@@ -2,10 +2,15 @@
 #include <iostream>
 #include "Pawn.h"
 
+#define SIZE_TOKENS 64
+
+
+
 Grid::Grid(const SDL_Point offset, const int cellDimension) :
 	m_Offset(offset),
 	m_CellDimension(cellDimension),
-	m_TypeSkin(3),
+	m_SkinBoardId(1),
+	m_SkinTokenId(1),
 	m_Board({})
 {
 	m_BoardSkin = new Sprite(offset.x, offset.y, GetWidth(), GetHeight());
@@ -43,12 +48,12 @@ int Grid::GetHeight()
 
 void Grid::Init(SDL_Renderer* renderer)
 {
-	m_BoardSkin->LoadTexture(renderer, "assets/Board/"+std::to_string(m_TypeSkin) +".png");
+	m_BoardSkin->LoadTexture(renderer, "assets/Board/"+std::to_string(m_SkinBoardId) +".png");
 	
 	for (int i = 0; i < 8; i++) 
 	{
-		m_Board[i][6] = new Pawn(64, true, m_Offset);
-		m_Board[i][6]->Init(1, renderer);
+		m_Board[i][6] = new Pawn(SIZE_TOKENS, true, m_Offset);
+		m_Board[i][6]->Init(m_SkinTokenId, renderer);
 		m_Board[i][6]->SetPosition({ i, 6 });
 	}
 

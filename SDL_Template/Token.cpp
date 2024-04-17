@@ -1,10 +1,12 @@
 #include "Token.h"
 
+#define TOKEN_BORDER 16
+
 Token::Token(float size, bool isWhite, SDL_Point offset) :
 	m_Size(size), 
 	m_IsWhite(isWhite),
 	m_Offset(offset),
-	m_Sprite(new Sprite(0, 0, size, size))
+	m_Sprite(new Sprite(0, 0, size-TOKEN_BORDER, size-TOKEN_BORDER))
 {
 }
 
@@ -28,8 +30,8 @@ void Token::Draw(SDL_Renderer* renderer)
 
 void Token::SetPosition(SDL_Point newPosition)
 {
-	newPosition.x = m_Offset.x + (newPosition.x * m_Size);
-	newPosition.y = m_Offset.x + (newPosition.y * m_Size);
+	newPosition.x = m_Offset.x + (newPosition.x * m_Size)+ TOKEN_BORDER / 2;
+	newPosition.y = m_Offset.x + (newPosition.y * m_Size)+ TOKEN_BORDER / 2;
 
 	m_Sprite->SetPosition(newPosition);
 }

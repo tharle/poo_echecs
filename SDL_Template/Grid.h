@@ -10,8 +10,10 @@ class Grid
 private:
 	SDL_Point m_Offset;
 	int m_CellDimension;
-	int m_TypeSkin;
 	Sprite* m_BoardSkin;
+
+	int m_SkinBoardId;
+	int m_SkinTokenId;
 	
 	vector<vector<Token*>> m_Board;
 
