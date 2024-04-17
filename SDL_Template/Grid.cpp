@@ -1,13 +1,24 @@
 #include "Grid.h"
 #include <iostream>
+#include "Pawn.h"
 
-Grid::Grid(const SDL_Point position, const int cellDimension) :
-	m_Position(position),
+Grid::Grid(const SDL_Point offset, const int cellDimension) :
+	m_Offset(offset),
 	m_CellDimension(cellDimension),
-	m_TypeSkin(3)
+	m_TypeSkin(3),
+	m_Board({})
 {
+	m_BoardSkin = new Sprite(offset.x, offset.y, GetWidth(), GetHeight());
 
-	m_BoardSkin = new Sprite(position.x, position.y, GetWidth(), GetHeight());
+	for (int i = 0; i < 8; i++)
+	{
+		m_Board.push_back(vector<Token*>());
+		for (int j = 0; j < 8; j++)
+		{
+			m_Board[i].push_back(nullptr);
+		}
+	}
+
 }
 
 Grid::~Grid()
@@ -33,11 +44,27 @@ int Grid::GetHeight()
 void Grid::Init(SDL_Renderer* renderer)
 {
 	m_BoardSkin->LoadTexture(renderer, "assets/Board/"+std::to_string(m_TypeSkin) +".png");
+	
+	for (int i = 0; i < 8; i++) 
+	{
+		m_Board[i][6] = new Pawn(64, true, m_Offset);
+		m_Board[i][6]->Init(1, renderer);
+		m_Board[i][6]->SetPosition({ i, 6 });
+	}
+
 }
 
 void Grid::Draw(SDL_Renderer* renderer)
 {
 	m_BoardSkin->Draw(renderer);
+
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (m_Board[i][j] != nullptr) m_Board[i][j]->Draw(renderer);
+		}
+	}
 }
 
 void Grid::MouseClick(SDL_Point mousePosition)
@@ -48,5 +75,5 @@ void Grid::MouseClick(SDL_Point mousePosition)
 
 SDL_Point Grid::GetGridPointByMousePosition(SDL_Point mousePosition)
 {
-	return { (mousePosition.x - m_Position.x) / m_CellDimension,  (mousePosition.y - m_Position.y) / m_CellDimension };
+	return { (mousePosition.x - m_Offset.x) / m_CellDimension,  (mousePosition.y - m_Offset.y) / m_CellDimension };
 }

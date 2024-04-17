@@ -1,4 +1,8 @@
-﻿  Game.cpp
+﻿  Grid.cpp
+D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\Grid.cpp(11,68): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\Grid.cpp(11,55): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\Grid.cpp(11,43): warning C4244: 'argument' : conversion de 'const int' en 'float', perte possible de données
+D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\Grid.cpp(11,33): warning C4244: 'argument' : conversion de 'const int' en 'float', perte possible de données
   SDL_Template.vcxproj -> D:\Tharle J Camargo\POO\poo_echecs\x64\Debug\SDL_Template.exe
   SDL2\lib\x64\SDL2.dll
   SDL2\lib\x64\SDL2_image.dll

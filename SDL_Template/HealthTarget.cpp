@@ -38,5 +38,5 @@ void HealthTarget::IsColliding(const int x, const int y)
 
 void HealthTarget::Reposition()
 {
-	m_Sprite->SetPosition(rand() % Game::SCREEN_WIDTH, rand() % Game::SCREEN_HEIGHT);
+	//m_Sprite->SetPosition(rand() % Game::SCREEN_WIDTH, rand() % Game::SCREEN_HEIGHT);
 }

@@ -19,11 +19,6 @@ Game::~Game()
 
 void Game::Init(SDL_Renderer* graphics)
 {
-	//m_Background->LoadTexture(graphics, "assets/background.jpg");
-	/*for (int i = 0; i < m_Objects.size(); i++)
-	{
-		m_Objects[i]->Init(graphics);
-	}*/
 	m_Grid.Init(graphics);
 }
 

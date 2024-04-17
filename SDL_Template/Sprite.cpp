@@ -36,10 +36,10 @@ void Sprite::Draw(SDL_Renderer* graphics)
 	SDL_RenderCopyEx(graphics, m_Texture, nullptr, &m_Rect, 0.0, nullptr, SDL_FLIP_NONE);
 }
 
-void Sprite::SetPosition(const int& x, const int& y)
+void Sprite::SetPosition(const SDL_Point newPosition)
 {
-	m_Rect.x = x;
-	m_Rect.y = y;
+	m_Rect.x = newPosition.x;
+	m_Rect.y = newPosition.y;
 }
 
 void Sprite::Translate(int x, int y)

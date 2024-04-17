@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 	}
 
 	SDL_Window* win = SDL_CreateWindow(
-		"Shoot the target",
+		"Master chees",
 		SDL_WINDOWPOS_CENTERED, 
 		SDL_WINDOWPOS_CENTERED,
 		Game::SCREEN_WIDTH,

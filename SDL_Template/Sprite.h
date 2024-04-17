@@ -12,7 +12,7 @@ public:
 	bool LoadTexture(SDL_Renderer* graphics, const std::string& filename);
 
 	void Draw(SDL_Renderer* graphics);
-	void SetPosition(const int& x, const int& y);
+	void SetPosition(const SDL_Point newPosition);
 
 	const int GetX() { return m_Rect.x; }
 	const int GetY() { return m_Rect.y; }
