@@ -3,10 +3,6 @@
 #include "Pawn.h"
 #include "TokenFactory.h"
 
-
-
-
-
 Grid::Grid(const SDL_Point offset, const int cellDimension) :
 	m_Offset(offset),
 	m_CellDimension(cellDimension),
@@ -66,6 +62,7 @@ void Grid::Init(SDL_Renderer* renderer)
 	
 	for (int i = 0; i < 8; i++) 
 	{
+		m_Board[1][i] = TokenFactory::CreatePawn(renderer, { 6, i }, m_Offset, false, m_SkinTokenId);
 		m_Board[6][i] = TokenFactory::CreatePawn(renderer, { 6, i }, m_Offset, true, m_SkinTokenId);
 	}
 
