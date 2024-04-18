@@ -13,3 +13,8 @@ void Pawn::Update()
 {
 	// Do nothing
 }
+
+std::string Pawn::ToString()
+{
+	return "P";
+}

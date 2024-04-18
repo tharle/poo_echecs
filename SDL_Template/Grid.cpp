@@ -1,16 +1,17 @@
 #include "Grid.h"
 #include <iostream>
 #include "Pawn.h"
+#include "TokenFactory.h"
 
-#define SIZE_TOKENS 64
+
 
 
 
 Grid::Grid(const SDL_Point offset, const int cellDimension) :
 	m_Offset(offset),
 	m_CellDimension(cellDimension),
-	m_SkinBoardId(1),
-	m_SkinTokenId(1),
+	m_SkinBoardId(2),
+	m_SkinTokenId(2),
 	m_Board({})
 {
 	m_BoardSkin = new Sprite(offset.x, offset.y, GetWidth(), GetHeight());
@@ -33,6 +34,19 @@ Grid::~Grid()
 		delete m_BoardSkin;
 		m_BoardSkin = nullptr;
 	}
+
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (m_Board[i][j] != nullptr) 
+			{
+				delete m_Board[i][j];
+
+				m_Board[i][j] = nullptr;
+			}
+		}
+	}
 }
 
 
@@ -52,12 +66,29 @@ void Grid::Init(SDL_Renderer* renderer)
 	
 	for (int i = 0; i < 8; i++) 
 	{
-		m_Board[i][6] = new Pawn(SIZE_TOKENS, true, m_Offset);
-		m_Board[i][6]->Init(m_SkinTokenId, renderer);
-		m_Board[i][6]->SetPosition({ i, 6 });
+		m_Board[6][i] = TokenFactory::CreatePawn(renderer, { 6, i }, m_Offset, true, m_SkinTokenId);
 	}
 
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			std::cout << "[";
+			if (m_Board[i][j] != nullptr)
+			{
+				std::cout << m_Board[i][j]->ToString();
+			}
+			else {
+				std::cout << " ";
+			}
+
+			std::cout << "]";
+		}
+		std::cout << std::endl;
+	}
 }
+
+
 
 void Grid::Draw(SDL_Renderer* renderer)
 {
@@ -67,7 +98,11 @@ void Grid::Draw(SDL_Renderer* renderer)
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if (m_Board[i][j] != nullptr) m_Board[i][j]->Draw(renderer);
+			if (m_Board[i][j] != nullptr)
+			{
+				m_Board[i][j]->SetPosition({ i, j });
+				m_Board[i][j]->Draw(renderer);
+			}
 		}
 	}
 }

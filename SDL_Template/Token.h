@@ -60,7 +60,7 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	virtual std::string GetName() = 0;// virtual pure
-
 	virtual void Update() = 0;// virtual pure
+	virtual std::string ToString() = 0;// virtual pure
 };
 
