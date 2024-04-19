@@ -28,6 +28,7 @@ void Game::HandleMouseEvents(SDL_Event events)
 	{
 		SDL_Point mousePosition;
 		SDL_GetMouseState(&mousePosition.x, &mousePosition.y);
+		m_Grid.MouseDrag(mousePosition);
 	}
 
 	if (events.type == SDL_MOUSEBUTTONDOWN)

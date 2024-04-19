@@ -3,6 +3,7 @@
 Sprite::Sprite(float x, float y, float w, float h)
 	: m_Texture(nullptr)
 	, m_Rect(SDL_Rect())
+	, m_Visible(true)
 {
 	m_Rect.x = x;
 	m_Rect.y = y;
@@ -33,7 +34,7 @@ bool Sprite::LoadTexture(SDL_Renderer* graphics, const std::string& filename)
 
 void Sprite::Draw(SDL_Renderer* graphics)
 {
-	SDL_RenderCopyEx(graphics, m_Texture, nullptr, &m_Rect, 0.0, nullptr, SDL_FLIP_NONE);
+	if(m_Visible) SDL_RenderCopyEx(graphics, m_Texture, nullptr, &m_Rect, 0.0, nullptr, SDL_FLIP_NONE);
 }
 
 void Sprite::SetPosition(const SDL_Point newPosition)
@@ -51,4 +52,14 @@ void Sprite::Translate(int x, int y)
 SDL_Rect* Sprite::GetRec()
 {
 	return &m_Rect;
+}
+
+void Sprite::SetVisible(bool visible)
+{
+	m_Visible = visible;
+}
+
+bool Sprite::IsColliding(SDL_Point point)
+{
+	return SDL_PointInRect(&point, GetRec());
 }

@@ -1,8 +1,10 @@
 ﻿  Grid.cpp
-D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(17,68): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(17,55): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(17,43): warning C4244: 'argument' : conversion de 'const int' en 'float', perte possible de données
-D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(17,33): warning C4244: 'argument' : conversion de 'const int' en 'float', perte possible de données
+D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(9,54): warning C4244: 'argument' : conversion de 'const int' en 'float', perte possible de données
+D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(9,39): warning C4244: 'argument' : conversion de 'const int' en 'float', perte possible de données
+D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(14,68): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(14,55): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(14,43): warning C4244: 'argument' : conversion de 'const int' en 'float', perte possible de données
+D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(14,33): warning C4244: 'argument' : conversion de 'const int' en 'float', perte possible de données
   SDL_Template.vcxproj -> D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\x64\Debug\SDL_Template.exe
   SDL2\lib\x64\SDL2.dll
   SDL2\lib\x64\SDL2_image.dll

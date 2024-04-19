@@ -9,6 +9,7 @@ class Grid
 {
 private:
 	SDL_Point m_Offset;
+	Sprite* m_MouseOverPosition;
 	int m_CellDimension;
 	Sprite* m_BoardSkin;
 
@@ -27,6 +28,7 @@ public:
 	void Init(SDL_Renderer* renderer);
 	void Draw(SDL_Renderer* renderer);
 	void MouseClick(SDL_Point mousePosition);
+	void MouseDrag(SDL_Point mousePosition);
 
 
 	SDL_Point GetGridPointByMousePosition(SDL_Point mousePosition);
