@@ -6,19 +6,18 @@
 Grid::Grid(const SDL_Point offset, const int cellDimension) :
 	m_Offset(offset),
 	m_CellDimension(cellDimension),
-	m_MouseOverPosition(new Sprite(0, 0, cellDimension, cellDimension)),
 	m_SkinBoardId(2),
 	m_SkinTokenId(2),
 	m_Board({})
 {
 	m_BoardSkin = new Sprite(offset.x, offset.y, GetWidth(), GetHeight());
-	m_MouseOverPosition->SetVisible(false);
 	for (int i = 0; i < 8; i++)
 	{
-		m_Board.push_back(vector<Token*>());
+		m_Board.push_back(vector<Tile*>());
 		for (int j = 0; j < 8; j++)
 		{
-			m_Board[i].push_back(nullptr);
+			// SDL_Point position, int size, SDL_Point offset
+			m_Board[i].push_back(new Tile({i, j}, cellDimension, offset));
 		}
 	}
 
@@ -60,28 +59,18 @@ int Grid::GetHeight()
 void Grid::Init(SDL_Renderer* renderer)
 {
 	m_BoardSkin->LoadTexture(renderer, "assets/Board/"+std::to_string(m_SkinBoardId) +".png");
-	m_MouseOverPosition->LoadTexture(renderer, "assets/UI/select.png");
 	
 	for (int i = 0; i < 8; i++) 
 	{
-		m_Board[1][i] = TokenFactory::CreatePawn(renderer, { 6, i }, m_Offset, false, m_SkinTokenId);
-		m_Board[6][i] = TokenFactory::CreatePawn(renderer, { 6, i }, m_Offset, true, m_SkinTokenId);
+		m_Board[1][i]->SetToken(TokenFactory::CreatePawn(renderer, { 6, i }, m_Offset, false, m_SkinTokenId)) ;
+		m_Board[6][i]->SetToken(TokenFactory::CreatePawn(renderer, { 6, i }, m_Offset, true, m_SkinTokenId));
 	}
 
 	for (int i = 0; i < 8; i++)
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			std::cout << "[";
-			if (m_Board[i][j] != nullptr)
-			{
-				std::cout << m_Board[i][j]->ToString();
-			}
-			else {
-				std::cout << " ";
-			}
-
-			std::cout << "]";
+			std::cout << "[" << m_Board[i][j]->ToString() << "]";
 		}
 		std::cout << std::endl;
 	}
@@ -99,13 +88,10 @@ void Grid::Draw(SDL_Renderer* renderer)
 		{
 			if (m_Board[i][j] != nullptr)
 			{
-				m_Board[i][j]->SetPosition({ i, j });
 				m_Board[i][j]->Draw(renderer);
 			}
 		}
 	}
-
-	m_MouseOverPosition->Draw(renderer);
 }
 
 void Grid::MouseClick(SDL_Point mousePosition)
@@ -118,21 +104,16 @@ void Grid::MouseClick(SDL_Point mousePosition)
 
 void Grid::MouseDrag(SDL_Point mousePosition) 
 {
-	
+	if (!m_BoardSkin->IsColliding(mousePosition)) return;
 
-	if (!m_BoardSkin->IsColliding(mousePosition)) 
-	{
-		
-		m_MouseOverPosition->SetPosition(mousePosition);
-		m_MouseOverPosition->SetVisible(false);
-		return;
-	}
+	SDL_Point gridPosition = GetGridPointByMousePosition(mousePosition);
 
-	std::cout << "DRAG [" << mousePosition.x << "," << mousePosition.y << "]" << std::endl;
+	if (m_MouseOverTile == m_Board[gridPosition.x][gridPosition.y]) return;
 
-	//SDL_Point gridPosition = GetGridPointByMousePosition(mousePosition);
-	m_MouseOverPosition->SetPosition(mousePosition);
-	m_MouseOverPosition->SetVisible(true);
+	std::cout << "DRAG [" << gridPosition.x << "," << gridPosition.y << "]" << std::endl;
+	if (m_MouseOverTile != nullptr) m_MouseOverTile->ChangeState(STATE_NONE);
+	m_MouseOverTile = m_Board[gridPosition.x][gridPosition.y];
+	m_MouseOverTile->ChangeState(STATE_OVER);
 }
 
 SDL_Point Grid::GetGridPointByMousePosition(SDL_Point mousePosition)

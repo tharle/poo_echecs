@@ -1,6 +1,7 @@
 #pragma once
 #include "Sprite.h"
 #include "Token.h"
+#include "Tile.h"
 #include <vector>
 
 using namespace std;
@@ -9,14 +10,14 @@ class Grid
 {
 private:
 	SDL_Point m_Offset;
-	Sprite* m_MouseOverPosition;
+	Tile* m_MouseOverTile;
 	int m_CellDimension;
 	Sprite* m_BoardSkin;
 
 	int m_SkinBoardId;
 	int m_SkinTokenId;
 	
-	vector<vector<Token*>> m_Board;
+	vector<vector<Tile*>> m_Board;
 
 public:
 	Grid(const SDL_Point offset, const int cellDimension);
