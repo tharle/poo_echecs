@@ -24,20 +24,28 @@ void Game::Init(SDL_Renderer* graphics)
 
 void Game::HandleMouseEvents(SDL_Event events)
 {
-	if (events.type == SDL_MOUSEMOTION)
+	if (events.type == SDL_MOUSEBUTTONUP) 
 	{
 		SDL_Point mousePosition;
-		SDL_GetMouseState(&mousePosition.x, &mousePosition.y);
-		m_Grid.MouseDrag(mousePosition);
+		SDL_GetMouseState(&mousePosition.y, &mousePosition.x);
+		m_Grid.MouseButtonUp(mousePosition);
+		cout << "MOUSE UP" << endl;
 	}
 
 	if (events.type == SDL_MOUSEBUTTONDOWN)
 	{
 		SDL_Point mousePosition;
-		SDL_GetMouseState(&mousePosition.x, &mousePosition.y);
+		SDL_GetMouseState(&mousePosition.y, &mousePosition.x);
+		m_Grid.MouseButtonDown(mousePosition);
 
-		m_Grid.MouseClick(mousePosition);
-		
+		cout << "MOUSE DOWN" << endl;
+	}
+
+	if (events.type == SDL_MOUSEMOTION)
+	{
+		SDL_Point mousePosition;
+		SDL_GetMouseState(&mousePosition.y, &mousePosition.x);
+		m_Grid.MouseDrag(mousePosition);
 	}
 }
 

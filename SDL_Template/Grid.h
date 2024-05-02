@@ -18,6 +18,14 @@ private:
 	int m_SkinTokenId;
 	
 	vector<vector<Tile*>> m_Board;
+	Token* m_TokenSelected;
+	SDL_Point m_OldTokenSelectedPosition;
+	Sprite* m_TokenSelectedSprite;
+
+
+	void SelectToken(SDL_Point gridPosition);
+
+	void UnselectToken(SDL_Point gridPosition);
 
 public:
 	Grid(const SDL_Point offset, const int cellDimension);
@@ -28,8 +36,9 @@ public:
 
 	void Init(SDL_Renderer* renderer);
 	void Draw(SDL_Renderer* renderer);
-	void MouseClick(SDL_Point mousePosition);
 	void MouseDrag(SDL_Point mousePosition);
+	void MouseButtonUp(SDL_Point mousePosition);
+	void MouseButtonDown(SDL_Point mousePosition);
 
 
 	SDL_Point GetGridPointByMousePosition(SDL_Point mousePosition);

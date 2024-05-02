@@ -18,3 +18,8 @@ std::string Pawn::ToString()
 {
 	return "P";
 }
+
+bool Pawn::IsInRangeOf(SDL_Point position)
+{
+	return true;
+}

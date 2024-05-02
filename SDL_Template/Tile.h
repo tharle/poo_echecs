@@ -24,6 +24,7 @@ public:
 
 	void ChangeState(int state);
 	void SetToken(Token* token);
+	Token* GetToken();
 	string ToString();
 
 };

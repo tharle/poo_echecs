@@ -9,7 +9,7 @@ Tile::Tile(SDL_Point position, int size, SDL_Point offset) :
 	int x = offset.x + position.x * size;
 	int y = offset.y + position.y * size;
 
-	m_Decoration = new Sprite(x, y, size, size);
+	m_Decoration = new Sprite(y, x, size, size); // il fait l'invertion pour désiner
 }
 
 Tile::~Tile() 
@@ -46,7 +46,12 @@ void Tile::ChangeState(int state)
 void Tile::SetToken(Token* token)
 {
 	m_Token = token;
-	token->SetPosition(m_Position);
+	if(m_Token != nullptr) m_Token->SetPosition(m_Position);
+}
+
+Token* Tile::GetToken()
+{
+	return m_Token;
 }
 
 string Tile::ToString()

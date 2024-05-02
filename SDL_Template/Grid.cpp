@@ -31,6 +31,18 @@ Grid::~Grid()
 		m_BoardSkin = nullptr;
 	}
 
+	if (m_TokenSelected != nullptr)
+	{
+		delete m_TokenSelected;
+		m_TokenSelected = nullptr;
+	}
+
+	if (m_TokenSelectedSprite != nullptr) 
+	{
+		delete m_TokenSelectedSprite;
+		m_TokenSelectedSprite = nullptr;
+	}
+
 	for (int i = 0; i < 8; i++)
 	{
 		for (int j = 0; j < 8; j++)
@@ -92,28 +104,80 @@ void Grid::Draw(SDL_Renderer* renderer)
 			}
 		}
 	}
+
+	if(m_TokenSelectedSprite != nullptr) m_TokenSelectedSprite->Draw(renderer);
 }
 
-void Grid::MouseClick(SDL_Point mousePosition)
+void Grid::MouseDrag(SDL_Point mousePosition)
 {
 	if (!m_BoardSkin->IsColliding(mousePosition)) return;
 
-	SDL_Point gridPosition = GetGridPointByMousePosition(mousePosition);
-	std::cout << "Grid [" << gridPosition.x << "," << gridPosition.y << "]" << std::endl;
-}
-
-void Grid::MouseDrag(SDL_Point mousePosition) 
-{
-	if (!m_BoardSkin->IsColliding(mousePosition)) return;
+	if (m_TokenSelected != nullptr)
+	{
+		// ici j'ai besoin de être dans la bonne X et Y, donc je l'enverse (oui à nouveau)
+		m_TokenSelectedSprite->SetPosition({ mousePosition.y - m_TokenSelectedSprite->GetRec()->w/2, mousePosition.x - 32 + m_TokenSelectedSprite->GetRec()->h / 2 });
+	}
 
 	SDL_Point gridPosition = GetGridPointByMousePosition(mousePosition);
 
 	if (m_MouseOverTile == m_Board[gridPosition.x][gridPosition.y]) return;
 
-	std::cout << "DRAG [" << gridPosition.x << "," << gridPosition.y << "]" << std::endl;
+	//std::cout << "DRAG [" << gridPosition.x << "," << gridPosition.y << "]" << m_Board[gridPosition.x][gridPosition.y]->ToString()<<endl;
 	if (m_MouseOverTile != nullptr) m_MouseOverTile->ChangeState(STATE_NONE);
 	m_MouseOverTile = m_Board[gridPosition.x][gridPosition.y];
 	m_MouseOverTile->ChangeState(STATE_OVER);
+}
+
+void Grid::MouseButtonUp(SDL_Point mousePosition)
+{
+	if (m_TokenSelected == nullptr) return;
+
+	if (!m_BoardSkin->IsColliding(mousePosition))
+	{
+		m_TokenSelected->SetPosition(m_OldTokenSelectedPosition);
+		m_TokenSelected = nullptr;
+
+		return;
+	}
+	//std::cout << "Grid [" << gridPosition.x << "," << gridPosition.y << "]" << m_Board[gridPosition.x][gridPosition.y]->ToString()<<endl;
+
+	SDL_Point gridPosition = GetGridPointByMousePosition(mousePosition);
+	UnselectToken(gridPosition);
+}
+
+void Grid::MouseButtonDown(SDL_Point mousePosition)
+{
+	if (!m_BoardSkin->IsColliding(mousePosition)) return;
+
+	SDL_Point gridPosition = GetGridPointByMousePosition(mousePosition);
+	SelectToken(gridPosition);
+
+}
+
+void Grid::SelectToken(SDL_Point gridPosition)
+{
+	m_TokenSelected = m_Board[gridPosition.x][gridPosition.y]->GetToken();
+	if (m_TokenSelected != nullptr) 
+	{
+		m_OldTokenSelectedPosition = gridPosition;
+		m_TokenSelectedSprite = m_TokenSelected->GetSprite();
+	}
+}
+
+void Grid::UnselectToken(SDL_Point gridPosition) 
+{
+	if (m_TokenSelected->IsInRangeOf(gridPosition))
+	{
+		m_Board[m_OldTokenSelectedPosition.x][m_OldTokenSelectedPosition.y]->SetToken(nullptr);
+		m_Board[gridPosition.x][gridPosition.y]->SetToken(m_TokenSelected);
+		// TODO ajouter le "mager token"
+	}
+	else {
+		m_Board[m_OldTokenSelectedPosition.x][m_OldTokenSelectedPosition.y]->SetToken(m_TokenSelected);
+	}
+
+	m_TokenSelected = nullptr;
+	m_TokenSelectedSprite = nullptr;
 }
 
 SDL_Point Grid::GetGridPointByMousePosition(SDL_Point mousePosition)

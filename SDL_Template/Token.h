@@ -41,6 +41,7 @@ public:
 	// MÉTHODES
 	// ------------------------
 	void SetPosition(SDL_Point newPosition);
+	Sprite* GetSprite(); // Util pour faire desiner le pointer quand il est sélectioné
 	const bool IsWhite() { return m_IsWhite; }
 
 	// ------------------------
@@ -60,7 +61,13 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	virtual std::string GetName() = 0;// virtual pure
-	virtual void Update() = 0;// virtual pure
-	virtual std::string ToString() = 0;// virtual pure
+	virtual void Update() = 0;
+	virtual std::string ToString() = 0;
+
+	/// <summary>
+	/// Vérifie si la position est dans la "Range" pour la pièce se deplacer
+	/// </summary>
+	/// <returns>true si la position est dans le range, si non false</returns>
+	virtual bool IsInRangeOf(SDL_Point position) = 0;
 };
 

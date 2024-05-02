@@ -33,6 +33,11 @@ void Token::SetPosition(SDL_Point newPosition)
 	int x = m_Offset.x + (newPosition.x * m_Size)+ TOKEN_BORDER / 2;
 	int y = m_Offset.y + (newPosition.y * m_Size)+ TOKEN_BORDER / 2;
 
-	// fait l'invertion pour désiner
+	//il fait l'invertion pour désiner
 	m_Sprite->SetPosition({y, x});
+}
+
+Sprite* Token::GetSprite()
+{
+	return m_Sprite;
 }

@@ -10,5 +10,6 @@ public:
 	virtual std::string GetName() override;
 	virtual void Update() override;
 	virtual std::string ToString() override;
+	virtual bool IsInRangeOf(SDL_Point position) override;
 };
 
