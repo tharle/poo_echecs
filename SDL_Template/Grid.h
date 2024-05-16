@@ -3,6 +3,7 @@
 #include "Token.h"
 #include "Tile.h"
 #include <vector>
+#include <list>
 
 using namespace std;
 
@@ -19,8 +20,11 @@ private:
 	
 	vector<vector<Tile*>> m_Board;
 	Token* m_TokenSelected;
-	SDL_Point m_OldTokenSelectedPosition;
+	SDL_Point m_OldTokenSelectedPosition;	
 	Sprite* m_TokenSelectedSprite;
+
+	list<Token*> m_WhiteCaptureds;
+	list<Token*> m_BlackCaptureds;
 
 
 	void SelectToken(SDL_Point gridPosition);
@@ -42,6 +46,7 @@ public:
 
 
 	SDL_Point GetGridPointByMousePosition(SDL_Point mousePosition);
+	void RestoreSelectionGrid();
 
 };
 

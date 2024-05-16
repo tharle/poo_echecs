@@ -2,11 +2,6 @@
 #include "Token.h"
 #include <string>
 
-#define STATE_NONE 0
-#define STATE_OVER 1
-#define STATE_RANGE 2
-#define STATE_ATACK 3
-
 using namespace std;
 
 class Tile
@@ -14,18 +9,27 @@ class Tile
 private:
 	SDL_Point m_Position;
 	Token* m_Token;
-	Sprite* m_Decoration;
-	int m_State;
-	SDL_Renderer* m_Renderer;
+	Sprite* m_DecorationOver;
+	Sprite* m_DecorationRange;
+	Sprite* m_DecorationAttack;
+	bool m_IsOver;
+	bool m_IsRange;
+	bool m_IsAttack;
 public:
 	Tile(SDL_Point position, int size, SDL_Point offset);
 	~Tile();
+	void Init(SDL_Renderer* renderer);
 	void Draw(SDL_Renderer* renderer);
-
-	void ChangeState(int state);
+	void RestoreState();
 	void SetToken(Token* token);
 	Token* GetToken();
 	string ToString();
 
+	bool IsOver();
+	void SetOver(bool active);
+	bool IsRange();
+	void SetRange(bool active);
+	bool IsAttack();
+	void SetAttack(bool active);
 };
 

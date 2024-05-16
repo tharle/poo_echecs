@@ -41,3 +41,13 @@ Sprite* Token::GetSprite()
 {
 	return m_Sprite;
 }
+
+bool Token::IsSameTeam(Token* other)
+{
+	return other && this->m_IsWhite == other->m_IsWhite;
+}
+
+void Token::ChangeOffset(SDL_Point offset)
+{
+	m_Offset = offset;
+}

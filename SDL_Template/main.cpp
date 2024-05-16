@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Game.h"
 #include <cstdlib>
+#include <SDL_ttf.h>
 
 using namespace std;
 

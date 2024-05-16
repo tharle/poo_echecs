@@ -11,19 +11,17 @@ public:
 
 	bool LoadTexture(SDL_Renderer* graphics, const std::string& filename);
 
-	void Draw(SDL_Renderer* graphics);
-
-	const int GetX() { return m_Rect.x; }
-	const int GetY() { return m_Rect.y; }
-	SDL_Rect* GetRec();
-	void SetVisible(bool visible);
-
-	bool IsColliding(SDL_Point point);
-	void SetPosition(const SDL_Point newPosition);
-	void Translate(int x, int y);
+	//SDL_Rect* GetRec();
+	virtual void Draw(SDL_Renderer* graphics);
+	virtual void SetVisible(bool visible);
+	virtual bool IsColliding(SDL_Point point);
+	virtual void SetPosition(const SDL_Point newPosition);
+	void Translate(SDL_Point distance);
+	int GetH();
+	int GetW();
 
 
-private:
+protected:
 
 	SDL_Rect m_Rect;
 	SDL_Texture* m_Texture;

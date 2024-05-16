@@ -1,8 +1,9 @@
 #pragma once
 #include "Sprite.h"
 #include <String>
+#include <vector>
 
-class Token
+class Token 
 {
 private:
 	/// <summary>
@@ -43,11 +44,9 @@ public:
 	void SetPosition(SDL_Point newPosition);
 	Sprite* GetSprite(); // Util pour faire desiner le pointer quand il est sélectioné
 	const bool IsWhite() { return m_IsWhite; }
+	bool IsSameTeam(Token* other);
+	void ChangeOffset(SDL_Point offset);
 
-	// ------------------------
-	// MÉTHODES ABSTRACTS
-	// ------------------------
-	
 	/// <summary>
 	/// Init la texture du Token
 	/// </summary>
@@ -56,6 +55,11 @@ public:
 	virtual void Init(int skinId, SDL_Renderer* renderer);
 	virtual void Draw(SDL_Renderer* renderer);
 
+	// ------------------------
+	// MÉTHODES ABSTRACTS
+	// ------------------------
+	
+
 	/// <summary>
 	/// Nom de pièce. Ex: Peon: "Pawn"
 	/// </summary>
@@ -63,6 +67,8 @@ public:
 	virtual std::string GetName() = 0;// virtual pure
 	virtual void Update() = 0;
 	virtual std::string ToString() = 0;
+	virtual std::vector<SDL_Point> GetRangeMove()  = 0;
+	virtual std::vector<SDL_Point> GetRangeAttack() = 0;
 
 	/// <summary>
 	/// Vérifie si la position est dans la "Range" pour la pièce se deplacer

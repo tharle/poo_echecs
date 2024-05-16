@@ -43,15 +43,10 @@ void Sprite::SetPosition(const SDL_Point newPosition)
 	m_Rect.y = newPosition.y;
 }
 
-void Sprite::Translate(int x, int y)
+void Sprite::Translate(SDL_Point distance)
 {
-	m_Rect.x += x;
-	m_Rect.y += y;
-}
-
-SDL_Rect* Sprite::GetRec()
-{
-	return &m_Rect;
+	m_Rect.x += distance.x;
+	m_Rect.y += distance.y;
 }
 
 void Sprite::SetVisible(bool visible)
@@ -61,5 +56,15 @@ void Sprite::SetVisible(bool visible)
 
 bool Sprite::IsColliding(SDL_Point point)
 {
-	return SDL_PointInRect(&point, GetRec());
+	return SDL_PointInRect(&point, &m_Rect);
+}
+
+int Sprite::GetH()
+{
+	return m_Rect.w;
+}
+
+int Sprite::GetW()
+{
+	return m_Rect.h;
 }

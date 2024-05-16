@@ -1,9 +1,14 @@
 ﻿  Grid.cpp
-D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\Grid.cpp(13,68): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\Grid.cpp(13,55): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\Grid.cpp(13,43): warning C4244: 'argument' : conversion de 'const int' en 'float', perte possible de données
-D:\Tharle J Camargo\POO\poo_echecs\SDL_Template\Grid.cpp(13,33): warning C4244: 'argument' : conversion de 'const int' en 'float', perte possible de données
-  SDL_Template.vcxproj -> D:\Tharle J Camargo\POO\poo_echecs\x64\Debug\SDL_Template.exe
+D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(15,68): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(15,55): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(15,43): warning C4244: 'argument' : conversion de 'const int' en 'float', perte possible de données
+D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(15,33): warning C4244: 'argument' : conversion de 'const int' en 'float', perte possible de données
+D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(255,43): warning C4838: la conversion de 'unsigned __int64' en 'int' requiert une conversion restrictive
+D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(255,43): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(265,46): warning C4838: la conversion de 'unsigned __int64' en 'int' requiert une conversion restrictive
+D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(265,46): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+  SDL_Template.vcxproj -> D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\x64\Debug\SDL_Template.exe
   SDL2\lib\x64\SDL2.dll
   SDL2\lib\x64\SDL2_image.dll
-          2 fichier(s) copié(s).
+  SDL2\lib\x64\SDL2_ttf.dll
+          3 fichier(s) copié(s).
