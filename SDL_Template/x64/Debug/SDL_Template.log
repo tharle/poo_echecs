@@ -1,5 +1,4 @@
-﻿  Game.cpp
-  Grid.cpp
+﻿  Grid.cpp
 D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(21,68): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
 D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(21,55): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
 D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(21,43): warning C4244: 'argument' : conversion de 'const int' en 'float', perte possible de données
@@ -8,13 +7,10 @@ D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(22,48): warning
 D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(23,48): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
 D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(24,48): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
 D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(25,48): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(398,42): warning C4838: la conversion de 'unsigned __int64' en 'int' requiert une conversion restrictive
-D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(398,42): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
-D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(408,45): warning C4838: la conversion de 'unsigned __int64' en 'int' requiert une conversion restrictive
-D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(408,45): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
-  main.cpp
-D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\main.cpp(12,12): warning C4244: 'argument' : conversion de 'time_t' en 'unsigned int', perte possible de données
-  Génération de code en cours...
+D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(395,42): warning C4838: la conversion de 'unsigned __int64' en 'int' requiert une conversion restrictive
+D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(395,42): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(407,45): warning C4838: la conversion de 'unsigned __int64' en 'int' requiert une conversion restrictive
+D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\SDL_Template\Grid.cpp(407,45): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
   SDL_Template.vcxproj -> D:\Desenvolvimento\Aulas\S2\poo\poo_echecs\x64\Debug\SDL_Template.exe
   SDL2\lib\x64\SDL2.dll
   SDL2\lib\x64\SDL2_image.dll

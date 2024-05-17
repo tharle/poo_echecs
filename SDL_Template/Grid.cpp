@@ -388,7 +388,6 @@ void Grid::UnselectToken(SDL_Point gridPosition)
 
 void Grid::CaptureToken(Token* token)
 {
-	cout << "IN RANGE ATTACK" << endl;
 	if (token->IsWhite())
 	{
 		token->ChangeOffset({ 34, -12 });
@@ -398,6 +397,8 @@ void Grid::CaptureToken(Token* token)
 
 		token->SetPosition(pos);
 		m_WhiteCaptureds.push_back(token);
+
+		if (dynamic_cast<King*>(token)) m_GameState = GAME_STATE_WHITE_WIN;
 	}
 	else
 	{
@@ -408,6 +409,8 @@ void Grid::CaptureToken(Token* token)
 
 		token->SetPosition(pos);
 		m_BlackCaptureds.push_back(token);
+
+		if (dynamic_cast<King*>(token)) m_GameState = GAME_STATE_BLACK_WIN;
 	}
 }
 
