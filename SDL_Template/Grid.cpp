@@ -1,7 +1,7 @@
 #include "Grid.h"
 #include <iostream>
 #include "Pawn.h"
-#include "TokenFactory.h"
+#include "TokenBuilder.h"
 
 Grid::Grid(const SDL_Point offset, const int cellDimension) :
 	m_Offset(offset),
@@ -123,11 +123,27 @@ void Grid::Init(SDL_Renderer* renderer)
 		m_Board[1][i]->InitToken(builder.CreatePawn(false, { 1, i }, skins[0]));
 		m_Board[6][i]->InitToken(builder.CreatePawn(true, { 6, i }, skins[0]));
 	}
-
-	m_Board[7][0]->InitToken(builder.CreateRook(true, { 7, 0 }, skins[1]));
-	m_Board[7][7]->InitToken(builder.CreateRook(true, { 7, 7 }, skins[1]));
+	
 	m_Board[0][0]->InitToken(builder.CreateRook(false, { 0, 0 }, skins[1]));
 	m_Board[0][7]->InitToken(builder.CreateRook(false, { 0, 7 }, skins[1]));
+	m_Board[7][0]->InitToken(builder.CreateRook(true, { 7, 0 }, skins[1]));
+	m_Board[7][7]->InitToken(builder.CreateRook(true, { 7, 7 }, skins[1]));
+
+	m_Board[0][1]->InitToken(builder.CreateKight(false, { 0, 1 }, skins[2]));
+	m_Board[0][6]->InitToken(builder.CreateKight(false, { 0, 6 }, skins[2]));
+	m_Board[7][1]->InitToken(builder.CreateKight(true, { 7, 1 }, skins[2]));
+	m_Board[7][6]->InitToken(builder.CreateKight(true, { 7, 6 }, skins[2]));
+
+	m_Board[0][2]->InitToken(builder.CreateBishop(false, { 0, 2 }, skins[3]));
+	m_Board[0][5]->InitToken(builder.CreateBishop(false, { 0, 5 }, skins[3]));
+	m_Board[7][2]->InitToken(builder.CreateBishop(true, { 7, 2 }, skins[3]));
+	m_Board[7][5]->InitToken(builder.CreateBishop(true, { 7, 5 }, skins[3]));
+
+	m_Board[0][3]->InitToken(builder.CreateQueen(false, { 0, 3 }, skins[4]));
+	m_Board[7][4]->InitToken(builder.CreateQueen(true, { 7, 4 }, skins[4]));
+
+	m_Board[0][4]->InitToken(builder.CreateKing(false, { 0, 4 }, skins[4]));
+	m_Board[7][3]->InitToken(builder.CreateKing(true, { 7, 3 }, skins[4]));
 
 	for (int i = 0; i < 8; i++)
 	{
@@ -164,7 +180,6 @@ void Grid::Draw(SDL_Renderer* renderer)
 	// ----------
 	if (m_TokenSelectedSprite != nullptr) 
 	{
-		
 		SDL_RendererFlip flip = m_TokenSelected->IsWhite() ? SDL_RendererFlip::SDL_FLIP_NONE : SDL_RendererFlip::SDL_FLIP_VERTICAL;
 		m_TokenSelectedSprite->Draw(renderer, flip);
 	} 

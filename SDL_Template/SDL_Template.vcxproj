@@ -151,6 +151,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bishop.cpp" />
+    <ClCompile Include="Knight.cpp" />
     <ClCompile Include="Rook.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -159,9 +161,11 @@
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Token.cpp" />
-    <ClCompile Include="TokenFactory.cpp" />
+    <ClCompile Include="TokenBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bishop.h" />
+    <ClInclude Include="Knight.h" />
     <ClInclude Include="Rook.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Game.h" />
@@ -169,7 +173,7 @@
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Token.h" />
-    <ClInclude Include="TokenFactory.h" />
+    <ClInclude Include="TokenBuilder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
