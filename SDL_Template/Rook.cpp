@@ -41,3 +41,8 @@ std::vector<std::vector<SDL_Point>> Rook::GetRangeMove()
     
     return rangeMove;
 }
+
+void Rook::Init(SDL_Renderer* renderer, SDL_Point position, int skinId)
+{
+    Token::Init(renderer, position, skinId);
+}

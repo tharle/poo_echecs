@@ -1,9 +1,11 @@
 #pragma once
+#include "SDL_image.h"
 #include "Pawn.h"
 #include "Rook.h"
 #include "Bishop.h"
 #include "Knight.h"
-#include "SDL_image.h"
+#include "Queen.h"
+#include "King.h"
 
 
 class TokenBuilder
@@ -17,8 +19,8 @@ public:
 	Rook* CreateRook(bool isWhite, SDL_Point position, int skinId);
 	Bishop* CreateBishop(bool isWhite, SDL_Point position, int skinId);
 	Knight* CreateKight(bool isWhite, SDL_Point position, int skinId);
-	Token* CreateQueen(bool isWhite, SDL_Point position, int skinId);
-	Token* CreateKing(bool isWhite, SDL_Point position, int skinId);
+	Queen* CreateQueen(bool isWhite, SDL_Point position, int skinId);
+	King* CreateKing(bool isWhite, SDL_Point position, int skinId);
 
 };
 

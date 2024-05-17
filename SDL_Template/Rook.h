@@ -10,5 +10,6 @@ public:
 	virtual std::string ToString() override;
 	virtual bool IsInRangeOf(SDL_Point position) override;
 	virtual std::vector<std::vector<SDL_Point>> GetRangeMove() override;
+	virtual void Init(SDL_Renderer* renderer, SDL_Point position, int skinId) override;
 };
 

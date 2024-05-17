@@ -38,14 +38,18 @@ Knight* TokenBuilder::CreateKight(bool isWhite, SDL_Point position, int skinId)
 	return knight;
 }
 
-Token* TokenBuilder::CreateQueen(bool isWhite, SDL_Point position, int skinId)
+Queen* TokenBuilder::CreateQueen(bool isWhite, SDL_Point position, int skinId)
 {
-	return nullptr;
+	Queen* queen = new Queen(isWhite, m_Offset, SIZE_TOKENS);
+	queen->Init(m_Renderer, position, skinId);
+	return queen;
 }
 
-Token* TokenBuilder::CreateKing(bool isWhite, SDL_Point position, int skinId)
+King* TokenBuilder::CreateKing(bool isWhite, SDL_Point position, int skinId)
 {
-	return nullptr;
+	King* king = new King(isWhite, m_Offset, SIZE_TOKENS);
+	king->Init(m_Renderer, position, skinId);
+	return king;
 }
 
 

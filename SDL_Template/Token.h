@@ -50,9 +50,9 @@ public:
 	bool IsSameTeam(Token* other);
 	void ChangeOffset(SDL_Point offset);
 
-	void Init(SDL_Renderer* renderer, SDL_Point position, int skinId);
-
 	virtual void Draw(SDL_Renderer* renderer);
+	virtual std::vector<SDL_Point> GetRangeAttack();
+	virtual void Init(SDL_Renderer* renderer, SDL_Point position, int skinId);
 
 	// ------------------------
 	// MÉTHODES ABSTRACTS
@@ -67,7 +67,6 @@ public:
 	virtual void Update() = 0;
 	virtual std::string ToString() = 0;
 	virtual std::vector<std::vector<SDL_Point>> GetRangeMove()  = 0;
-	virtual std::vector<SDL_Point> GetRangeAttack();
 
 	/// <summary>
 	/// Vérifie si la position est dans la "Range" pour la pièce se deplacer

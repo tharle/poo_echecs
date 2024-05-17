@@ -1,0 +1,20 @@
+#pragma once
+#include "Rook.h"
+#include "Bishop.h"
+#include "Token.h"
+
+class Queen : public Token
+{
+private:
+	Rook m_Rook;
+	Bishop m_Bishop;
+
+public:
+	Queen(bool isWhite, SDL_Point offset, int size);
+	virtual std::string GetName() override;
+	virtual void Update() override;
+	virtual std::string ToString() override;
+	virtual bool IsInRangeOf(SDL_Point position) override;
+	virtual std::vector<std::vector<SDL_Point>> GetRangeMove() override;
+};
+

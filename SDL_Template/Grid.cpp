@@ -142,8 +142,8 @@ void Grid::Init(SDL_Renderer* renderer)
 	m_Board[0][3]->InitToken(builder.CreateQueen(false, { 0, 3 }, skins[4]));
 	m_Board[7][4]->InitToken(builder.CreateQueen(true, { 7, 4 }, skins[4]));
 
-	m_Board[0][4]->InitToken(builder.CreateKing(false, { 0, 4 }, skins[4]));
-	m_Board[7][3]->InitToken(builder.CreateKing(true, { 7, 3 }, skins[4]));
+	m_Board[0][4]->InitToken(builder.CreateKing(false, { 0, 4 }, skins[5]));
+	m_Board[7][3]->InitToken(builder.CreateKing(true, { 7, 3 }, skins[5]));
 
 	for (int i = 0; i < 8; i++)
 	{
