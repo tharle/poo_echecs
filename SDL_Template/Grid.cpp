@@ -100,12 +100,6 @@ Grid::~Grid()
 		delete m_SpriteBlackWins;
 		m_SpriteBlackWins = nullptr;
 	}
-
-	if (m_SpriteBlackTurn != nullptr)
-	{
-		delete m_SpriteBlackTurn;
-		m_SpriteBlackTurn = nullptr;
-	}
 }
 
 
@@ -145,6 +139,20 @@ vector<int> GetRandomSkin()
 	return skins;
 }
 
+void Log(vector<vector<Tile*>> board)
+{
+	// For log
+	system("CLS");
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			std::cout << "[" << board[i][j]->ToString() << "]";
+		}
+		std::cout << std::endl;
+	}
+}
+
 void Grid::Init(SDL_Renderer* renderer)
 {
 	m_BoardSkin->LoadTexture(renderer, "assets/Board/"+std::to_string(m_SkinBoardId) +".png");
@@ -180,22 +188,27 @@ void Grid::Init(SDL_Renderer* renderer)
 	m_Board[7][5]->InitToken(builder.CreateBishop(true, { 7, 5 }, skins[3]));
 
 	m_Board[0][3]->InitToken(builder.CreateQueen(false, { 0, 3 }, skins[4]));
-	m_Board[7][4]->InitToken(builder.CreateQueen(true, { 7, 4 }, skins[4]));
+	m_Board[7][3]->InitToken(builder.CreateQueen(true, { 7, 3 }, skins[4]));
 
 	m_Board[0][4]->InitToken(builder.CreateKing(false, { 0, 4 }, skins[5]));
-	m_Board[7][3]->InitToken(builder.CreateKing(true, { 7, 3 }, skins[5]));
+	m_Board[7][4]->InitToken(builder.CreateKing(true, { 7, 4 }, skins[5]));
 
 
-	// For log
 	for (int i = 0; i < 8; i++)
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			std::cout << "[" << m_Board[i][j]->ToString() << "]";
 			m_Board[i][j]->Init(renderer);
 		}
 		std::cout << std::endl;
 	}
+
+	Log(m_Board);
+}
+
+void Grid::Update() 
+{
+	// empty
 }
 
 void Grid::Draw(SDL_Renderer* renderer)
@@ -222,7 +235,7 @@ void Grid::Draw(SDL_Renderer* renderer)
 	// ----------
 	if (m_TokenSelectedSprite != nullptr) 
 	{
-		SDL_RendererFlip flip = m_TokenSelected->IsWhite() ? SDL_RendererFlip::SDL_FLIP_NONE : SDL_RendererFlip::SDL_FLIP_VERTICAL;
+		SDL_RendererFlip flip = !m_TokenSelected || m_TokenSelected->IsWhite() ? SDL_RendererFlip::SDL_FLIP_NONE : SDL_RendererFlip::SDL_FLIP_VERTICAL;
 		m_TokenSelectedSprite->Draw(renderer, flip);
 	} 
 
@@ -280,7 +293,6 @@ void Grid::MouseButtonUp(SDL_Point mousePosition)
 
 		return;
 	}
-	//std::cout << "Grid [" << gridPosition.x << "," << gridPosition.y << "]" << m_Board[gridPosition.x][gridPosition.y]->ToString()<<endl;
 
 	SDL_Point gridPosition = GetGridPointByMousePosition(mousePosition);
 	UnselectToken(gridPosition);
@@ -344,7 +356,6 @@ void Grid::SelectToken(SDL_Point gridPosition)
 			int x = direction.x + gridPosition.x;
 			int y = direction.y + gridPosition.y;
 
-			cout << y << "," << x << endl;
 			// Ça c'est "hard codé" parce que le grid vas être toujours 8x8
 			if (x < 0 || x > 7 || y < 0 || y > 7) continue;
 
@@ -361,7 +372,6 @@ void Grid::UnselectToken(SDL_Point gridPosition)
 	Tile* tileOld = m_Board[m_TokenSelectedPositionOld.x][m_TokenSelectedPositionOld.y];
 	if (tileTarget->IsRange() && !tileTarget->GetToken())
 	{
-		std::cout << "IN RANGE MOVE" << endl;
 		tileOld->SetToken(nullptr);
 		tileTarget->SetToken(m_TokenSelected);
 		
@@ -376,7 +386,6 @@ void Grid::UnselectToken(SDL_Point gridPosition)
 
 	} else 
 	{
-		std::cout << "NO RANGE" << endl;
 		tileOld->SetToken(m_TokenSelected);
 	}
 
@@ -384,6 +393,8 @@ void Grid::UnselectToken(SDL_Point gridPosition)
 
 	m_TokenSelected = nullptr;
 	m_TokenSelectedSprite = nullptr;
+
+	Log(m_Board);
 }
 
 void Grid::CaptureToken(Token* token)
@@ -398,7 +409,7 @@ void Grid::CaptureToken(Token* token)
 		token->SetPosition(pos);
 		m_WhiteCaptureds.push_back(token);
 
-		if (dynamic_cast<King*>(token)) m_GameState = GAME_STATE_WHITE_WIN;
+		if (dynamic_cast<King*>(token)) m_GameState = GAME_STATE_BLACK_WIN;
 	}
 	else
 	{
@@ -410,7 +421,7 @@ void Grid::CaptureToken(Token* token)
 		token->SetPosition(pos);
 		m_BlackCaptureds.push_back(token);
 
-		if (dynamic_cast<King*>(token)) m_GameState = GAME_STATE_BLACK_WIN;
+		if (dynamic_cast<King*>(token)) m_GameState = GAME_STATE_WHITE_WIN;
 	}
 }
 

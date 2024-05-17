@@ -29,7 +29,6 @@ void Game::HandleMouseEvents(SDL_Event events)
 		SDL_Point mousePosition;
 		SDL_GetMouseState(&mousePosition.y, &mousePosition.x);
 		m_Grid.MouseButtonUp(mousePosition);
-		cout << "MOUSE UP" << endl;
 	}
 
 	if (events.type == SDL_MOUSEBUTTONDOWN)
@@ -37,8 +36,6 @@ void Game::HandleMouseEvents(SDL_Event events)
 		SDL_Point mousePosition;
 		SDL_GetMouseState(&mousePosition.y, &mousePosition.x);
 		m_Grid.MouseButtonDown(mousePosition);
-
-		cout << "MOUSE DOWN" << endl;
 	}
 
 	if (events.type == SDL_MOUSEMOTION)
@@ -51,34 +48,12 @@ void Game::HandleMouseEvents(SDL_Event events)
 
 void Game::Update()
 {
-	/*for (int i = 0; i < m_Objects.size(); i++)
-	{
-		if (m_Objects[i] != nullptr)
-		{
-			if (m_Objects[i]->IsDestroyed())
-			{
-				delete m_Objects[i];
-				m_Objects[i] = nullptr;
-
-				continue;
-			}
-
-			m_Objects[i]->Update();
-		}
-	}*/
+	m_Grid.Update();
 }
 
 void Game::Draw(SDL_Renderer* graphics)
 {
 	m_Grid.Draw(graphics);
-	/*m_Background->Draw(graphics);
-	for (int i = 0; i < m_Objects.size(); i++)
-	{
-		if (m_Objects[i] != nullptr)
-		{
-			m_Objects[i]->Draw(graphics);
-		}
-	}*/
 }
 
 

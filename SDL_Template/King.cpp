@@ -25,10 +25,10 @@ bool King::IsInRangeOf(SDL_Point position)
 
 std::vector<std::vector<SDL_Point>> King::GetRangeMove()
 {
-	if (m_RangeMoves.size() > 0) return m_RangeMoves;
+	if (m_RangeMoves.size() > 0 && m_RangeMoves[0].size() <= 1) return m_RangeMoves;
 
 	std::vector<std::vector<SDL_Point>> rangeMovesQueen = Queen::GetRangeMove();
-
+	m_RangeMoves = std::vector<std::vector<SDL_Point>>();
 	for (std::vector<SDL_Point> moves : rangeMovesQueen) 
 	{
 		std::vector<SDL_Point> kingMove = std::vector<SDL_Point>();

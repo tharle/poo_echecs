@@ -50,6 +50,7 @@ public:
 
 	void Init(SDL_Renderer* renderer);
 	void Draw(SDL_Renderer* renderer);
+	void Update();
 	void MouseDrag(SDL_Point mousePosition);
 	void MouseButtonUp(SDL_Point mousePosition);
 	void MouseButtonDown(SDL_Point mousePosition);
