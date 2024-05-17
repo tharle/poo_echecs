@@ -1,11 +1,22 @@
 #pragma once
 #include "Pawn.h"
+#include "Rook.h"
 #include "SDL_image.h"
 
 
-class TokenFactory
+class TokenBuilder
 {
+private:
+	SDL_Renderer* m_Renderer;
+	SDL_Point m_Offset;
 public: 
-	static Pawn* CreatePawn(SDL_Renderer* renderer, SDL_Point position, SDL_Point offset, bool isWhite, int skinTokenId);
+	static TokenBuilder Config(SDL_Point offset, SDL_Renderer* renderer);
+	Pawn* CreatePawn(bool isWhite, SDL_Point position, int skinId);
+	Rook* CreateRook(bool isWhite, SDL_Point position, int skinId);
+	Token* CreateBishop(bool isWhite, SDL_Point position, int skinId);
+	Token* CreateKight(bool isWhite, SDL_Point position, int skinId);
+	Token* CreateQueen(bool isWhite, SDL_Point position, int skinId);
+	Token* CreateKing(bool isWhite, SDL_Point position, int skinId);
+
 };
 

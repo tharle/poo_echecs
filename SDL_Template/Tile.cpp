@@ -65,6 +65,11 @@ void Tile::RestoreState()
 	m_IsRange = false;
 }
 
+void Tile::InitToken(Token* token)
+{
+	m_Token = token;
+}
+
 void Tile::SetToken(Token* token)
 {
 	m_Token = token;

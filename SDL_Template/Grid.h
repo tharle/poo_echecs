@@ -20,7 +20,7 @@ private:
 	
 	vector<vector<Tile*>> m_Board;
 	Token* m_TokenSelected;
-	SDL_Point m_OldTokenSelectedPosition;	
+	SDL_Point m_TokenSelectedPositionOld;	
 	Sprite* m_TokenSelectedSprite;
 
 	list<Token*> m_WhiteCaptureds;
@@ -28,8 +28,8 @@ private:
 
 
 	void SelectToken(SDL_Point gridPosition);
-
 	void UnselectToken(SDL_Point gridPosition);
+	void CaptureToken(Token* token);
 
 public:
 	Grid(const SDL_Point offset, const int cellDimension);

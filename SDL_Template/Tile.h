@@ -21,6 +21,7 @@ public:
 	void Init(SDL_Renderer* renderer);
 	void Draw(SDL_Renderer* renderer);
 	void RestoreState();
+	void InitToken(Token* token);
 	void SetToken(Token* token);
 	Token* GetToken();
 	string ToString();

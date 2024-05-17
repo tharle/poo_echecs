@@ -4,7 +4,7 @@
 //#include "MovingTarget.h"
 
 const int Game::SCREEN_WIDTH = 600;
-const int Game::SCREEN_HEIGHT = 600;
+const int Game::SCREEN_HEIGHT = 700;
 const int Game::CELL_SIZE = 64;
 const int Game::BORDER_SIZE = 44;
 

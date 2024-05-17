@@ -84,19 +84,50 @@ int Grid::GetHeight()
 	return m_CellDimension * 8;
 }
 
+vector<int> GetRandomSkin() 
+{
+	vector<int> skins = vector<int>();
+	skins = vector<int>();
+	for (int i = 0; i < 6; i++) 
+	{
+		int nSkin = 0;
+		bool exist = false;
+		do
+		{
+			nSkin = rand() % 386 + 1;
+			exist = false;
+			for (int skin : skins)
+			{
+				if (skin == nSkin) 
+				{
+					exist = true;
+					break;
+				}
+			}
+		} while (exist);
+		skins.push_back(nSkin);
+	}
+	return skins;
+}
+
 void Grid::Init(SDL_Renderer* renderer)
 {
 	m_BoardSkin->LoadTexture(renderer, "assets/Board/"+std::to_string(m_SkinBoardId) +".png");
 	
+	TokenBuilder builder = TokenBuilder::Config(m_Offset, renderer);
+	
+	vector<int> skins = GetRandomSkin();
+
 	for (int i = 0; i < 8; i++) 
 	{
-		m_Board[1][i]->SetToken(TokenFactory::CreatePawn(renderer, { 6, i }, m_Offset, false, m_SkinTokenId)) ;
-		m_Board[6][i]->SetToken(TokenFactory::CreatePawn(renderer, { 6, i }, m_Offset, false, m_SkinTokenId));
-		m_Board[4][i]->SetToken(TokenFactory::CreatePawn(renderer, { 6, i }, m_Offset, false, m_SkinTokenId));
-		m_Board[5][i]->SetToken(TokenFactory::CreatePawn(renderer, { 6, i }, m_Offset, false, m_SkinTokenId));
-		m_Board[3][i]->SetToken(TokenFactory::CreatePawn(renderer, { 6, i }, m_Offset, false, m_SkinTokenId));
-		m_Board[2][i]->SetToken(TokenFactory::CreatePawn(renderer, { 6, i }, m_Offset, true, m_SkinTokenId));
+		m_Board[1][i]->InitToken(builder.CreatePawn(false, { 1, i }, skins[0]));
+		m_Board[6][i]->InitToken(builder.CreatePawn(true, { 6, i }, skins[0]));
 	}
+
+	m_Board[7][0]->InitToken(builder.CreateRook(true, { 7, 0 }, skins[1]));
+	m_Board[7][7]->InitToken(builder.CreateRook(true, { 7, 7 }, skins[1]));
+	m_Board[0][0]->InitToken(builder.CreateRook(false, { 0, 0 }, skins[1]));
+	m_Board[0][7]->InitToken(builder.CreateRook(false, { 0, 7 }, skins[1]));
 
 	for (int i = 0; i < 8; i++)
 	{
@@ -131,7 +162,12 @@ void Grid::Draw(SDL_Renderer* renderer)
 	// ----------
 	//  MOUSE SELECTED TOKEN
 	// ----------
-	if (m_TokenSelectedSprite != nullptr) m_TokenSelectedSprite->Draw(renderer);
+	if (m_TokenSelectedSprite != nullptr) 
+	{
+		
+		SDL_RendererFlip flip = m_TokenSelected->IsWhite() ? SDL_RendererFlip::SDL_FLIP_NONE : SDL_RendererFlip::SDL_FLIP_VERTICAL;
+		m_TokenSelectedSprite->Draw(renderer, flip);
+	} 
 
 	// ----------
 	//  TOKENS CAPTUREDS
@@ -170,7 +206,7 @@ void Grid::MouseButtonUp(SDL_Point mousePosition)
 
 	if (!m_BoardSkin->IsColliding(mousePosition))
 	{
-		m_TokenSelected->SetPosition(m_OldTokenSelectedPosition);
+		m_TokenSelected->SetPosition(m_TokenSelectedPositionOld);
 		m_TokenSelected = nullptr;
 
 		return;
@@ -195,26 +231,35 @@ void Grid::SelectToken(SDL_Point gridPosition)
 	m_TokenSelected = m_Board[gridPosition.x][gridPosition.y]->GetToken();
 	if (m_TokenSelected != nullptr) 
 	{
-		m_OldTokenSelectedPosition = gridPosition;
+		m_TokenSelectedPositionOld = gridPosition;
 		m_TokenSelectedSprite = m_TokenSelected->GetSprite();
 
-
-		for (SDL_Point direction : m_TokenSelected->GetRangeMove()) 
+		for (vector<SDL_Point> directions : m_TokenSelected->GetRangeMove()) 
 		{
-			int x = direction.x + gridPosition.x;
-			int y = direction.y + gridPosition.y;
-
-			// Ça c'est "hard codé" parce que le grid vas être toujours 8x8
-			if (x < 0 || x > 7 || y < 0 || y > 7) continue;
-
-			m_Board[x][y]->SetRange(true);
-		
-			if (!dynamic_cast<Pawn*>(m_TokenSelected)) 	// s'il est pas Pawn, le move et attck sont le même
+			for (SDL_Point direction : directions)
 			{
-				if (m_Board[x][y]->GetToken() && !m_Board[x][y]->GetToken()->IsSameTeam(m_TokenSelected)) 
-					m_Board[x][y]->SetAttack(true);
+				int x = direction.x + gridPosition.x;
+				int y = direction.y + gridPosition.y;
+
+				// Ça c'est "hard codé" parce que le grid vas être toujours 8x8
+				if (x < 0 || x > 7 || y < 0 || y > 7) continue;
+
+				Tile* tileSelected = m_Board[x][y];
+
+				if (!tileSelected->GetToken()) 
+				{
+					tileSelected->SetRange(true);
+					continue;
+				}
+		
+				if (!dynamic_cast<Pawn*>(m_TokenSelected)) 	// s'il est pas Pawn, le move et attck sont le même
+				{
+					if (!tileSelected->GetToken()->IsSameTeam(m_TokenSelected))
+						tileSelected->SetAttack(true);
+				}
+
+				if (tileSelected->GetToken()) break;
 			}
-			
 		}
 
 		// CHECK FOR ATTACK PAWN
@@ -225,10 +270,13 @@ void Grid::SelectToken(SDL_Point gridPosition)
 				int x = direction.x + gridPosition.x;
 				int y = direction.y + gridPosition.y;
 
+				cout << y << "," << x << endl;
 				// Ça c'est "hard codé" parce que le grid vas être toujours 8x8
 				if (x < 0 || x > 7 || y < 0 || y > 7) continue;
 
-				if(m_Board[x][y]->GetToken()) m_Board[x][y]->SetAttack(true);
+				Tile* tileSelected = m_Board[x][y];
+				if(tileSelected->GetToken() && !tileSelected->GetToken()->IsSameTeam(m_TokenSelected))
+					tileSelected->SetAttack(true);
 			}
 		}
 
@@ -237,51 +285,56 @@ void Grid::SelectToken(SDL_Point gridPosition)
 
 void Grid::UnselectToken(SDL_Point gridPosition) 
 {
-	Tile* newtile = m_Board[gridPosition.x][gridPosition.y];
-	Tile* oldtile = m_Board[m_OldTokenSelectedPosition.x][m_OldTokenSelectedPosition.y];
-	if (newtile->IsRange() && !newtile->GetToken())
+	Tile* tileTarget = m_Board[gridPosition.x][gridPosition.y];
+	Tile* tileOld = m_Board[m_TokenSelectedPositionOld.x][m_TokenSelectedPositionOld.y];
+	if (tileTarget->IsRange() && !tileTarget->GetToken())
 	{
 		std::cout << "IN RANGE MOVE" << endl;
-		oldtile->SetToken(nullptr);
-		newtile->SetToken(m_TokenSelected);
+		tileOld->SetToken(nullptr);
+		tileTarget->SetToken(m_TokenSelected);
 		// TODO ajouter le "mager token"
-	} else if (newtile->IsAttack())
-	{
-		std::cout << "IN RANGE ATTACK" << endl;		
-		if (newtile->GetToken()->IsWhite()) 
-		{
-			newtile->GetToken()->ChangeOffset({ 0, -12 });
+	} else if (tileTarget->IsAttack())
+	{ 
+		CaptureToken(tileTarget->GetToken());
 
-			SDL_Point pos = { m_WhiteCaptureds.size(), 0 };
-			if (pos.x > 8) pos = { 8, pos.x % 8 };
-
-			newtile->GetToken()->SetPosition(pos);
-			m_WhiteCaptureds.push_back(newtile->GetToken());
-		} 
-		else 
-		{
-			newtile->GetToken()->ChangeOffset({ m_BoardSkin->GetW() + 34, m_BoardSkin->GetH()+34});
-
-			SDL_Point pos = { m_BlackCaptureds.size() * -1, 0};
-			if (pos.x > 8) pos = { 0, -(pos.x % 8) };
-
-			newtile->GetToken()->SetPosition(pos);
-			m_BlackCaptureds.push_back(newtile->GetToken());
-		}  
-
-		oldtile->SetToken(nullptr);
-		newtile->SetToken(m_TokenSelected);
+		tileOld->SetToken(nullptr);
+		tileTarget->SetToken(m_TokenSelected);
 
 	} else 
 	{
 		std::cout << "NO RANGE" << endl;
-		oldtile->SetToken(m_TokenSelected);
+		tileOld->SetToken(m_TokenSelected);
 	}
 
 	RestoreSelectionGrid();
 
 	m_TokenSelected = nullptr;
 	m_TokenSelectedSprite = nullptr;
+}
+
+void Grid::CaptureToken(Token* token)
+{
+	cout << "IN RANGE ATTACK" << endl;
+	if (token->IsWhite())
+	{
+		token->ChangeOffset({ 34, -12 });
+
+		SDL_Point pos = { m_WhiteCaptureds.size(), 0 };
+		if (pos.x > 8) pos = { 8, pos.x % 8 };
+
+		token->SetPosition(pos);
+		m_WhiteCaptureds.push_back(token);
+	}
+	else
+	{
+		token->ChangeOffset({ m_BoardSkin->GetH() - 6, m_BoardSkin->GetW() + 34 });
+
+		SDL_Point pos = { m_BlackCaptureds.size() * -1, 0 };
+		if (pos.x < -8) pos = { -8, pos.x % 8 };
+
+		token->SetPosition(pos);
+		m_BlackCaptureds.push_back(token);
+	}
 }
 
 SDL_Point Grid::GetGridPointByMousePosition(SDL_Point mousePosition)

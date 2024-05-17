@@ -13,6 +13,7 @@ public:
 
 	//SDL_Rect* GetRec();
 	virtual void Draw(SDL_Renderer* graphics);
+	virtual void Draw(SDL_Renderer* graphics, SDL_RendererFlip sdlFlipId);
 	virtual void SetVisible(bool visible);
 	virtual bool IsColliding(SDL_Point point);
 	virtual void SetPosition(const SDL_Point newPosition);

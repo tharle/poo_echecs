@@ -1,6 +1,6 @@
 #include "Pawn.h"
 
-Pawn::Pawn(int size, bool isWhite, SDL_Point offset): Token(size, isWhite, offset)
+Pawn::Pawn(bool isWhite, SDL_Point offset, int size): Token(isWhite, offset, size)
 {
 }
 
@@ -40,18 +40,19 @@ std::vector<SDL_Point> Pawn::GetRangeAttack()
 	return rangeAttack;
 }
 
-std::vector<SDL_Point> Pawn::GetRangeMove()
+std::vector<std::vector<SDL_Point>> Pawn::GetRangeMove()
 {
-	std::vector<SDL_Point> rangeMove;
+	std::vector <std::vector<SDL_Point>> rangeMove = std::vector<std::vector<SDL_Point>>();
+	rangeMove.push_back(std::vector<SDL_Point>());
 	if (IsWhite()) 
 	{
-		rangeMove.push_back({ -1,0 });
-		rangeMove.push_back({ -2,0 });
+		rangeMove[0].push_back({-1,0});
+		if (!m_IsMoved) rangeMove[0].push_back({ -2,0 });
 	} 
 	else 
 	{
-		rangeMove.push_back({ 1,0 });
-		rangeMove.push_back({ 2,0 });
+		rangeMove[0].push_back({ 1,0 });
+		if (!m_IsMoved) rangeMove[0].push_back({ 2,0 });
 	} 
 
 	return rangeMove;

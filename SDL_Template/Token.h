@@ -24,19 +24,22 @@ private:
 	/// <summary>
 	/// Offset du board, pour savoir par où le board commence à être desiné
 	/// </summary>
-	SDL_Point m_Offset;
+	SDL_Point m_Offset;	
 
 
 	// ------------------------
 	// MÉTHODES PRIVÉES
 	// ------------------------
 	std::string GetPathTexture(int skin );
+protected:
+	bool m_IsMoved;
+
 public:
 
 	// ------------------------
 	// CONSTRUCTOR
 	// ------------------------
-	Token(float size, bool isWhite, SDL_Point offset);
+	Token(bool isWhite, SDL_Point offset, int size);
 
 	// ------------------------
 	// MÉTHODES
@@ -47,12 +50,8 @@ public:
 	bool IsSameTeam(Token* other);
 	void ChangeOffset(SDL_Point offset);
 
-	/// <summary>
-	/// Init la texture du Token
-	/// </summary>
-	/// <param name="skinId">code de la skin sélectionné</param>
-	/// <param name="renderer">Le renderer SDL</param>
-	virtual void Init(int skinId, SDL_Renderer* renderer);
+	void Init(SDL_Renderer* renderer, SDL_Point position, int skinId);
+
 	virtual void Draw(SDL_Renderer* renderer);
 
 	// ------------------------
@@ -67,8 +66,8 @@ public:
 	virtual std::string GetName() = 0;// virtual pure
 	virtual void Update() = 0;
 	virtual std::string ToString() = 0;
-	virtual std::vector<SDL_Point> GetRangeMove()  = 0;
-	virtual std::vector<SDL_Point> GetRangeAttack() = 0;
+	virtual std::vector<std::vector<SDL_Point>> GetRangeMove()  = 0;
+	virtual std::vector<SDL_Point> GetRangeAttack();
 
 	/// <summary>
 	/// Vérifie si la position est dans la "Range" pour la pièce se deplacer

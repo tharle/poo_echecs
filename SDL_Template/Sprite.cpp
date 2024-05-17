@@ -34,7 +34,12 @@ bool Sprite::LoadTexture(SDL_Renderer* graphics, const std::string& filename)
 
 void Sprite::Draw(SDL_Renderer* graphics)
 {
-	if(m_Visible) SDL_RenderCopyEx(graphics, m_Texture, nullptr, &m_Rect, 0.0, nullptr, SDL_FLIP_NONE);
+	Draw(graphics, SDL_FLIP_NONE);
+}
+
+void Sprite::Draw(SDL_Renderer* graphics, SDL_RendererFlip sdlFlipId)
+{
+	if (m_Visible) SDL_RenderCopyEx(graphics, m_Texture, nullptr, &m_Rect, 0.0, nullptr, sdlFlipId);
 }
 
 void Sprite::SetPosition(const SDL_Point newPosition)
