@@ -25,18 +25,17 @@ bool Bishop::IsInRangeOf(SDL_Point position)
 
 std::vector<std::vector<SDL_Point>> Bishop::GetRangeMove()
 {
-    std::vector<std::vector<SDL_Point>> rangeMove;
-    rangeMove = std::vector<std::vector<SDL_Point>>();
+    if (m_RangeMoves.size() > 0) return m_RangeMoves;
 
-    for (int i = 0; i < 4; i++) rangeMove.push_back(std::vector<SDL_Point>());
+    for (int i = 0; i < 4; i++) m_RangeMoves.push_back(std::vector<SDL_Point>());
 
     for (int i = 1; i <= 7; i++)
     {
-        rangeMove[0].push_back({ 1 * i, 1 * i });
-        rangeMove[1].push_back({ -1 * i, 1 * i });
-        rangeMove[2].push_back({ 1 * i,-1 * i });
-        rangeMove[3].push_back({ -1 * i, -1 * i });
+        m_RangeMoves[0].push_back({ 1 * i, 1 * i });
+        m_RangeMoves[1].push_back({ -1 * i, 1 * i });
+        m_RangeMoves[2].push_back({ 1 * i,-1 * i });
+        m_RangeMoves[3].push_back({ -1 * i, -1 * i });
     }
 
-    return rangeMove;
+    return m_RangeMoves;
 }

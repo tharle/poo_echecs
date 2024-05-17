@@ -31,6 +31,16 @@ private:
 	void UnselectToken(SDL_Point gridPosition);
 	void CaptureToken(Token* token);
 
+	bool m_IsWhiteTurn;
+	int m_GameState;
+
+	// UI sprites
+	Sprite* m_SpriteWhiteWins;
+	Sprite* m_SpriteWhiteTurn;
+	Sprite* m_SpriteBlackWins;
+	Sprite* m_SpriteBlackTurn;
+
+
 public:
 	Grid(const SDL_Point offset, const int cellDimension);
 	~Grid();

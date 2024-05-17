@@ -25,19 +25,18 @@ bool Knight::IsInRangeOf(SDL_Point position)
 
 std::vector<std::vector<SDL_Point>> Knight::GetRangeMove()
 {
-    std::vector<std::vector<SDL_Point>> rangeMove;
-    rangeMove = std::vector<std::vector<SDL_Point>>();
+    if (m_RangeMoves.size() > 0) return m_RangeMoves;
 
-    for (int i = 0; i < 8; i++) rangeMove.push_back(std::vector<SDL_Point>());
+    for (int i = 0; i < 8; i++) m_RangeMoves.push_back(std::vector<SDL_Point>());
 
-    rangeMove[0].push_back({ -1,  2 });
-    rangeMove[1].push_back({ 1 , 2 });
-    rangeMove[2].push_back({ -2,1 });
-    rangeMove[3].push_back({ 2, 1 });
-    rangeMove[4].push_back({ -1 , -2 });
-    rangeMove[5].push_back({ 1 , -2 });
-    rangeMove[6].push_back({ -2,-1 });
-    rangeMove[7].push_back({ 2, -1 });
+    m_RangeMoves[0].push_back({ -1,  2 });
+    m_RangeMoves[1].push_back({ 1 , 2 });
+    m_RangeMoves[2].push_back({ -2,1 });
+    m_RangeMoves[3].push_back({ 2, 1 });
+    m_RangeMoves[4].push_back({ -1 , -2 });
+    m_RangeMoves[5].push_back({ 1 , -2 });
+    m_RangeMoves[6].push_back({ -2,-1 });
+    m_RangeMoves[7].push_back({ 2, -1 });
 
-    return rangeMove;
+    return m_RangeMoves;
 }

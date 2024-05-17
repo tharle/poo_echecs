@@ -27,9 +27,12 @@ bool Queen::IsInRangeOf(SDL_Point position)
 
 std::vector<std::vector<SDL_Point>> Queen::GetRangeMove()
 {
-    std::vector<std::vector<SDL_Point>> rangeMoveRook = m_Rook.GetRangeMove();
+    if (m_RangeMoves.size() > 0) return m_RangeMoves;
+
+    m_RangeMoves  = m_Rook.GetRangeMove();
     std::vector<std::vector<SDL_Point>> rangeMoveBishop = m_Bishop.GetRangeMove();
 
-    rangeMoveRook.insert(std::end(rangeMoveRook), std::begin(rangeMoveBishop), std::end(rangeMoveBishop));
-    return rangeMoveRook;
+    m_RangeMoves.insert(std::end(m_RangeMoves), std::begin(rangeMoveBishop), std::end(rangeMoveBishop));
+
+    return m_RangeMoves;
 }

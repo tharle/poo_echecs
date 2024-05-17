@@ -3,6 +3,10 @@
 #include "Pawn.h"
 #include "TokenBuilder.h"
 
+#define GAME_STATE_RUN 0
+#define GAME_STATE_WHITE_WIN 1
+#define GAME_STATE_BLACK_WIN 2
+
 Grid::Grid(const SDL_Point offset, const int cellDimension) :
 	m_Offset(offset),
 	m_CellDimension(cellDimension),
@@ -10,9 +14,16 @@ Grid::Grid(const SDL_Point offset, const int cellDimension) :
 	m_SkinTokenId(2),
 	m_WhiteCaptureds(list<Token*>()),
 	m_BlackCaptureds(list<Token*>()),
+	m_IsWhiteTurn(true),
+	m_GameState(GAME_STATE_RUN),
 	m_Board({})
 {
 	m_BoardSkin = new Sprite(offset.x, offset.y, GetWidth(), GetHeight());
+	m_SpriteWhiteWins = new Sprite(0, GetHeight() / 3, 600, 200);
+	m_SpriteWhiteTurn = new Sprite(0, GetHeight() + 88, 600, 100);
+	m_SpriteBlackWins = new Sprite(0, GetHeight() / 3, 600, 200);
+	m_SpriteBlackTurn = new Sprite(0, GetHeight() + 88 , 600, 100);
+
 	for (int i = 0; i < 8; i++)
 	{
 		m_Board.push_back(vector<Tile*>());
@@ -71,6 +82,30 @@ Grid::~Grid()
 
 		token = nullptr;
 	}
+
+	if (m_SpriteWhiteWins != nullptr)
+	{
+		delete m_SpriteWhiteWins;
+		m_SpriteWhiteWins = nullptr;
+	}
+
+	if (m_SpriteWhiteTurn != nullptr)
+	{
+		delete m_SpriteWhiteTurn;
+		m_SpriteWhiteTurn = nullptr;
+	}
+
+	if (m_SpriteBlackWins != nullptr)
+	{
+		delete m_SpriteBlackWins;
+		m_SpriteBlackWins = nullptr;
+	}
+
+	if (m_SpriteBlackTurn != nullptr)
+	{
+		delete m_SpriteBlackTurn;
+		m_SpriteBlackTurn = nullptr;
+	}
 }
 
 
@@ -113,6 +148,11 @@ vector<int> GetRandomSkin()
 void Grid::Init(SDL_Renderer* renderer)
 {
 	m_BoardSkin->LoadTexture(renderer, "assets/Board/"+std::to_string(m_SkinBoardId) +".png");
+
+	m_SpriteWhiteWins->LoadTexture(renderer, "assets/UI/wins_W.png");
+	m_SpriteWhiteTurn->LoadTexture(renderer, "assets/UI/turn_W.png");
+	m_SpriteBlackWins->LoadTexture(renderer, "assets/UI/wins_B.png");
+	m_SpriteBlackTurn->LoadTexture(renderer, "assets/UI/turn_B.png");
 	
 	TokenBuilder builder = TokenBuilder::Config(m_Offset, renderer);
 	
@@ -145,6 +185,8 @@ void Grid::Init(SDL_Renderer* renderer)
 	m_Board[0][4]->InitToken(builder.CreateKing(false, { 0, 4 }, skins[5]));
 	m_Board[7][3]->InitToken(builder.CreateKing(true, { 7, 3 }, skins[5]));
 
+
+	// For log
 	for (int i = 0; i < 8; i++)
 	{
 		for (int j = 0; j < 8; j++)
@@ -192,11 +234,22 @@ void Grid::Draw(SDL_Renderer* renderer)
 	for (Token* token : m_BlackCaptureds) token->Draw(renderer);
 
 
+	// ----------
+	//  UI INFOS
+	// ----------
+
+	if(m_GameState == GAME_STATE_WHITE_WIN) m_SpriteWhiteWins->Draw(renderer);
+	else if (m_GameState == GAME_STATE_BLACK_WIN) m_SpriteBlackWins->Draw(renderer);
+
+	if (m_IsWhiteTurn) m_SpriteWhiteTurn->Draw(renderer);
+	else  m_SpriteBlackTurn->Draw(renderer);
 }
 
 
 void Grid::MouseDrag(SDL_Point mousePosition)
 {
+	if (m_GameState != GAME_STATE_RUN) return;
+
 	if (!m_BoardSkin->IsColliding(mousePosition)) return;
 
 	if (m_TokenSelected != nullptr)
@@ -209,7 +262,6 @@ void Grid::MouseDrag(SDL_Point mousePosition)
 
 	if (m_MouseOverTile == m_Board[gridPosition.x][gridPosition.y]) return;
 
-	//std::cout << "DRAG [" << gridPosition.x << "," << gridPosition.y << "]" << m_Board[gridPosition.x][gridPosition.y]->ToString()<<endl;
 	if (m_MouseOverTile != nullptr) m_MouseOverTile->SetOver(false);
 	m_MouseOverTile = m_Board[gridPosition.x][gridPosition.y];
 	m_MouseOverTile->SetOver(true);
@@ -217,6 +269,8 @@ void Grid::MouseDrag(SDL_Point mousePosition)
 
 void Grid::MouseButtonUp(SDL_Point mousePosition)
 {
+	if (m_GameState != GAME_STATE_RUN) return;
+
 	if (m_TokenSelected == nullptr) return;
 
 	if (!m_BoardSkin->IsColliding(mousePosition))
@@ -234,6 +288,8 @@ void Grid::MouseButtonUp(SDL_Point mousePosition)
 
 void Grid::MouseButtonDown(SDL_Point mousePosition)
 {
+	if (m_GameState != GAME_STATE_RUN) return;
+
 	if (!m_BoardSkin->IsColliding(mousePosition)) return;
 
 	SDL_Point gridPosition = GetGridPointByMousePosition(mousePosition);
@@ -244,57 +300,58 @@ void Grid::MouseButtonDown(SDL_Point mousePosition)
 void Grid::SelectToken(SDL_Point gridPosition)
 {
 	m_TokenSelected = m_Board[gridPosition.x][gridPosition.y]->GetToken();
-	if (m_TokenSelected != nullptr) 
+	if (m_TokenSelected == nullptr || m_TokenSelected->IsWhite() != m_IsWhiteTurn)
 	{
-		m_TokenSelectedPositionOld = gridPosition;
-		m_TokenSelectedSprite = m_TokenSelected->GetSprite();
+		m_TokenSelected = nullptr;
+		return;
+	}
 
-		for (vector<SDL_Point> directions : m_TokenSelected->GetRangeMove()) 
+	m_TokenSelectedPositionOld = gridPosition;
+	m_TokenSelectedSprite = m_TokenSelected->GetSprite();
+	for (vector<SDL_Point> directions : m_TokenSelected->GetRangeMove()) 
+	{
+		for (SDL_Point direction : directions)
 		{
-			for (SDL_Point direction : directions)
+			int x = direction.x + gridPosition.x;
+			int y = direction.y + gridPosition.y;
+
+			// Ça c'est "hard codé" parce que le grid vas être toujours 8x8
+			if (x < 0 || x > 7 || y < 0 || y > 7) continue;
+
+			Tile* tileSelected = m_Board[x][y];
+
+			if (!tileSelected->GetToken()) 
 			{
-				int x = direction.x + gridPosition.x;
-				int y = direction.y + gridPosition.y;
-
-				// Ça c'est "hard codé" parce que le grid vas être toujours 8x8
-				if (x < 0 || x > 7 || y < 0 || y > 7) continue;
-
-				Tile* tileSelected = m_Board[x][y];
-
-				if (!tileSelected->GetToken()) 
-				{
-					tileSelected->SetRange(true);
-					continue;
-				}
-		
-				if (!dynamic_cast<Pawn*>(m_TokenSelected)) 	// s'il est pas Pawn, le move et attck sont le même
-				{
-					if (!tileSelected->GetToken()->IsSameTeam(m_TokenSelected))
-						tileSelected->SetAttack(true);
-				}
-
-				if (tileSelected->GetToken()) break;
+				tileSelected->SetRange(true);
+				continue;
 			}
-		}
-
-		// CHECK FOR ATTACK PAWN
-		if (dynamic_cast<Pawn*>(m_TokenSelected))
-		{
-			for (SDL_Point direction : m_TokenSelected->GetRangeAttack())
+		
+			if (!dynamic_cast<Pawn*>(m_TokenSelected)) 	// s'il est pas Pawn, le move et attck sont le même
 			{
-				int x = direction.x + gridPosition.x;
-				int y = direction.y + gridPosition.y;
-
-				cout << y << "," << x << endl;
-				// Ça c'est "hard codé" parce que le grid vas être toujours 8x8
-				if (x < 0 || x > 7 || y < 0 || y > 7) continue;
-
-				Tile* tileSelected = m_Board[x][y];
-				if(tileSelected->GetToken() && !tileSelected->GetToken()->IsSameTeam(m_TokenSelected))
+				if (!tileSelected->GetToken()->IsSameTeam(m_TokenSelected))
 					tileSelected->SetAttack(true);
 			}
-		}
 
+			if (tileSelected->GetToken()) break;
+		}
+	}
+
+	// CHECK FOR ATTACK PAWN
+	if (dynamic_cast<Pawn*>(m_TokenSelected))
+	{
+		for (SDL_Point direction : m_TokenSelected->GetRangeAttack())
+		{
+			int x = direction.x + gridPosition.x;
+			int y = direction.y + gridPosition.y;
+
+			cout << y << "," << x << endl;
+			// Ça c'est "hard codé" parce que le grid vas être toujours 8x8
+			if (x < 0 || x > 7 || y < 0 || y > 7) continue;
+
+			Tile* tileSelected = m_Board[x][y];
+			if(tileSelected->GetToken() && !tileSelected->GetToken()->IsSameTeam(m_TokenSelected))
+				tileSelected->SetAttack(true);
+		}
 	}
 }
 
@@ -307,13 +364,15 @@ void Grid::UnselectToken(SDL_Point gridPosition)
 		std::cout << "IN RANGE MOVE" << endl;
 		tileOld->SetToken(nullptr);
 		tileTarget->SetToken(m_TokenSelected);
-		// TODO ajouter le "mager token"
+		
+		m_IsWhiteTurn = !m_IsWhiteTurn;
 	} else if (tileTarget->IsAttack())
 	{ 
 		CaptureToken(tileTarget->GetToken());
 
 		tileOld->SetToken(nullptr);
 		tileTarget->SetToken(m_TokenSelected);
+		m_IsWhiteTurn = !m_IsWhiteTurn;
 
 	} else 
 	{

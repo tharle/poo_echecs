@@ -6,7 +6,7 @@ King::King(bool isWhite, SDL_Point offset, int size) : Queen(isWhite, offset, si
 
 std::string King::GetName()
 {
-	return std::string();
+	return "King";
 }
 
 void King::Update()
@@ -15,7 +15,7 @@ void King::Update()
 
 std::string King::ToString()
 {
-	return std::string();
+	return "K";
 }
 
 bool King::IsInRangeOf(SDL_Point position)
@@ -25,15 +25,16 @@ bool King::IsInRangeOf(SDL_Point position)
 
 std::vector<std::vector<SDL_Point>> King::GetRangeMove()
 {
+	if (m_RangeMoves.size() > 0) return m_RangeMoves;
+
 	std::vector<std::vector<SDL_Point>> rangeMovesQueen = Queen::GetRangeMove();
-	std::vector<std::vector<SDL_Point>> rangeMoves = std::vector<std::vector<SDL_Point>>();
 
 	for (std::vector<SDL_Point> moves : rangeMovesQueen) 
 	{
 		std::vector<SDL_Point> kingMove = std::vector<SDL_Point>();
 		kingMove.push_back(moves[0]);
-		rangeMoves.push_back(kingMove);
+		m_RangeMoves.push_back(kingMove);
 	}
 
-	return rangeMoves;
+	return m_RangeMoves;
 }

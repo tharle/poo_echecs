@@ -33,6 +33,7 @@ private:
 	std::string GetPathTexture(int skin );
 protected:
 	bool m_IsMoved;
+	std::vector<std::vector<SDL_Point>>  m_RangeMoves;
 
 public:
 
